@@ -12,60 +12,67 @@
 </head>
 
 <body>
-    <h1>Mancala</h1>
-    <!--   NOTES:   <button id="inc-btn">Increment Score</button>
+    <header>
+        <h1>Mancala</h1>
+        <!--   NOTES:   <button id="inc-btn">Increment Score</button>
     <button id="dec-btn">Decrement Score</button> -->
+    </header>
+    <h3 id="p2-score">Player 2: </h3>
+    <h3 id="p1-score">Player 1: </h3>
     <table>
         <tr id="p2-side">
             <td class="store" rowspan="2">
-                <div> </div>
+                <div> 14</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h13"> 13 </div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h12">12</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h11"> 11</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h10">10 </div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h9">9</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h8"> 8</div>
             </td>
             <td class="store" rowspan="2">
-                <div>
+                <div id="p1-store"> 7
                 </div>
             </td>
         </tr>
         <tr id="p1-side">
             <td class="hole">
-                <div> </div>
+                <div id="h1"> 1</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h2"> 2</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h3"> 3</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h4">4 </div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h5">5</div>
             </td>
             <td class="hole">
-                <div> </div>
+                <div id="h6"> 6</div>
             </td>
         </tr>
     </table>
     <section>
-        
+        <div class="turn" id="p1-turn">Player 1</div>
+        <div class="turn" id="p2-turn">Player 2</div>
+        <br>
+        <button>Play Again</button>
     </section>
 </body>
 

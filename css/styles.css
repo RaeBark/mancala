@@ -11,7 +11,7 @@ body {
     flex-direction: column; 
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(245, 179, 81, 0.836);
+    background-color: rgba(238, 170, 67, 0.884);
 }
 
 .hole div {
@@ -20,7 +20,6 @@ body {
     border-radius: 50%;
     margin: 0 auto;
     cursor: pointer;
-    background-color: whitesmoke;
 }
 
 
@@ -36,14 +35,37 @@ table {
     border-radius: 40%;
     margin: 0 auto;
     cursor: pointer;
-    background-color: whitesmoke;
 }
 
 h1 {
     font-family: 'Kalam', cursive;
-    font-size: 50px
+    font-size: 60px;
+    margin: 0 auto;
 }
 
 .store div, .hole div {
     background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8iL7TxqSAttZIzoVuDfd7PX7Pbge1hmo7Xon0SqlazPXg9OED_Q")
+}
+
+h3 {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#p2-score {
+    float: left;
+    align-items: unset;
+}
+
+#p1-score {
+    float: right;
+    align-items: unset;
+}
+
+.turn {
+    display: inline-flex;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 25px;
+    border: 2px solid black;
 }
