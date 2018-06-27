@@ -50,49 +50,116 @@ var stones = {
     48: "https://imgur.com/XAqOsPN"
 }
 
+var p1store = 6;
+var p2store = 13;
+
+var p1holes = [0, 1, 2, 3, 4, 5];
+var p2holes = [7, 8, 9, 10, 11, 12];
+
 
 
 
 /*----- app's state (variables) -----*/
-var board = ['#h1', '#h2', '#h3', '#h4', '#h5', '#h6', '#p1-store', '#h8', '#h9', '#h10', '#h11', '#h12', '#h13', '#p2-store'];
-
+var board, turn, winner;
 
 
 /*----- cached element references -----*/
-// var scoreEl = document.querySelector('h1');
+
+
+
 
 
 
 /*----- event listeners -----*/
-// document.getElementById('inc-btn').addEventListener('click',function() {
-//     handleUpdateScore(1)
-// });
-// document.getElementById('dec-btn').addEventListener('click',function() {
-//     handleUpdateScore(-1)
-// });
+
+document.querySelector('button').addEventListener('click', initialize);
+document.querySelector('table').addEventListener('click', handleMove)
 
 // /*----- functions -----*/
-//  function initialize() {
-//     board = []
-//     score = 0; 
+function initialize() {
+    board = [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0];
+    winner = null;
+    turn = 1;
+    //render is LAST!!
+    render();
+}
+
+function handleMove(evt) {
+    var idx = parseInt(evt.target.id.replace('hole', ''));
+    // return if not a valid hole idx for the cur player
+    if (turn === 1 && !p1holes.includes(idx)) {
+        return;
+    }
+    if (turn === 2 && !p2holes.includes(idx)) {
+        return;
+    }
+
+    // spread the stones
+
+    var lastHoleIdx = spreadStones(idx);
+    //below is how we check in the console the idx of the div clicked
+    // console.log(lastHoleIdx)
+
+    capture(lastHoleIdx);
+    // checkForEndTurn(lastHoleIdx);
+    changeTurn(lastHoleIdx);
+
+    render();
+}
+
+function isIndexOnPlayerSide(idx) {
+    return turn === 1 ? p1holes.includes(idx) : p2holes.includes(idx);
+}
+
+function getPlayersStoreIdx() {
+    return turn === 1 ? p1store : p2store;
+}
+
+function spreadStones(idx) {
+    var numStones = board[idx];
+    board[idx] = 0;
+    while (numStones > 0) {
+        idx++;
+        if (turn === 1 && idx === p2store) {
+            idx = 0;
+        } else if (turn === 2 && idx === p1store) {
+            idx = 7;
+        } else if (idx > 13) {
+            idx = 0;
+        }
+        board[idx]++;
+        numStones--;
+    };
+    return idx;
+};
+
+function capture(lastHoleIdx) {
+    if (board[lastHoleIdx] === 1 && isIndexOnPlayerSide(lastHoleIdx)){
+        var opposite = 12 - lastHoleIdx; 
+        board[getPlayersStoreIdx()] += board[opposite];
+        board[opposite] = 0; 
+    }
+}
 
 
-//     //render is LAST!!
-//     render();
-//  }
+  
+function changeTurn(lastHoleIdx) {
+    if (turn === 1 && lastHoleIdx === p1store) return ;
+    if (turn === 2 && lastHoleIdx === p2store) return ;
+    turn = turn === 1 ?  2 : 1;
+ }
 
-//  //responsible for trasfering all state to the DOm
 
-//  function render() {
-//     scoreEl.textContent = score;
 
-//  }
 
-//  function handleUpdateScore(diff) {
-//     score += diff;
+function render() {
+    board.forEach(function (numStones, idx) {
+        document.getElementById(`hole${idx}`).textContent = numStones;
+    });
 
-render() {
+};
 
-}; 
 
- initialize();
+
+
+initialize();
