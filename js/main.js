@@ -67,9 +67,6 @@ var board, turn, winner;
 
 
 
-
-
-
 /*----- event listeners -----*/
 
 document.querySelector('button').addEventListener('click', initialize);
@@ -101,7 +98,13 @@ function handleMove(evt) {
     // console.log(lastHoleIdx)
 
     capture(lastHoleIdx);
-    // checkForClearedRow();
+
+    checkForClearedRow();
+
+    // if (board[p1holes].numStones === 0 && board[p2holes].numStones === 0) { 
+    //     checkForWinner(p1store, p2store);
+    // }
+
     changeTurn(lastHoleIdx);
 
     render();
@@ -134,23 +137,52 @@ function spreadStones(idx) {
 };
 
 function capture(lastHoleIdx) {
-    if (board[lastHoleIdx] === 1 && isIndexOnPlayerSide(lastHoleIdx)){
-        var opposite = 12 - lastHoleIdx; 
+    if (board[lastHoleIdx] === 1 && isIndexOnPlayerSide(lastHoleIdx)) {
+        var opposite = 12 - lastHoleIdx;
         board[getPlayersStoreIdx()] += board[opposite];
-        board[opposite] = 0; 
+        board[opposite] = 0;
     }
 }
-// in progress...
-// function checkForClearedRow() {
-//     if (p1holes || p2holes 
-// };
-  
-function changeTurn(lastHoleIdx) {
-    if (turn === 1 && lastHoleIdx === p1store) return ;
-    if (turn === 2 && lastHoleIdx === p2store) return ;
-    turn = turn === 1 ?  2 : 1;
- }
 
+function checkForClearedRow() {
+    var sum = p1holes.reduce(function(acc, idx) {
+        return acc + board[idx];
+    }, 0);
+    if (sum === 0) {
+        board[getPlayersStoreIdx()] += p2holes.reduce(function(acc, idx) {
+            var sum = acc + board[idx];
+            board[idx] = 0;
+            return sum;
+        }, 0);
+        getWinner;
+        return;
+    }
+    sum = p2holes.reduce(function(acc, idx) {
+        return acc + board[idx];
+    }, 0);
+    if (sum === 0) {
+        board[getPlayersStoreIdx()] += p1holes.reduce(function(acc, idx) {
+            var sum = acc + board[idx];
+            board[idx] = 0;
+            return sum;
+        }, 0);
+        getWinner();
+        return;
+    }
+}
+
+function getWinner() {
+    winner = board[p1store] > board[p2store] ? 'Player 1 wins!' : 'Player 2 wins!'
+};
+
+
+
+
+function changeTurn(lastHoleIdx) {
+    if (turn === 1 && lastHoleIdx === p1store) return;
+    if (turn === 2 && lastHoleIdx === p2store) return;
+    turn = turn === 1 ? 2 : 1;
+}
 
 
 
