@@ -101,7 +101,7 @@ function handleMove(evt) {
     // console.log(lastHoleIdx)
 
     capture(lastHoleIdx);
-    checkForClearedRow();
+    // checkForClearedRow();
     changeTurn(lastHoleIdx);
 
     render();
