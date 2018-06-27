@@ -101,7 +101,7 @@ function handleMove(evt) {
     // console.log(lastHoleIdx)
 
     capture(lastHoleIdx);
-    // checkForEndTurn(lastHoleIdx);
+    checkForClearedRow();
     changeTurn(lastHoleIdx);
 
     render();
@@ -140,8 +140,10 @@ function capture(lastHoleIdx) {
         board[opposite] = 0; 
     }
 }
-
-
+// in progress...
+// function checkForClearedRow() {
+//     if (p1holes || p2holes 
+// };
   
 function changeTurn(lastHoleIdx) {
     if (turn === 1 && lastHoleIdx === p1store) return ;
