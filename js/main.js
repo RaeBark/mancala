@@ -58,7 +58,8 @@ var p1holes = [0, 1, 2, 3, 4, 5];
 var p2holes = [7, 8, 9, 10, 11, 12];
 
 
-
+var winSound = new Audio("https://freesound.org/data/previews/413/413801_394391-lq.mp3")
+var stoneSound = new Audio("https://freesound.org/data/previews/364/364711_2531187-lq.mp3")
 
 /*----- app's state (variables) -----*/
 var board, turn, winner;
@@ -106,7 +107,7 @@ function handleMove(evt) {
     if (turn === 2 && !p2holes.includes(idx)) {
         return;
     }
-
+    stoneSound.play();
     // spread the stones
 
     var lastHoleIdx = spreadStones(idx);
@@ -256,6 +257,7 @@ function render() {
     if (winner) {
         modal.style.display = "block";
         displayWinner.textContent = winner;
+        winSound.play();
     }
     
 }
