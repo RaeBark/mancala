@@ -68,10 +68,30 @@ var board, turn, winner;
 var p1scoreDisplay = document.getElementById('p1-score');
 var p2scoreDisplay = document.getElementById('p2-score')
 
+
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
+
+
+
 /*----- event listeners -----*/
 
 document.querySelector('button').addEventListener('click', initialize);
 document.querySelector('table').addEventListener('click', handleMove)
+
+
+
+
+
+
+
 
 // /*----- functions -----*/
 function initialize() {
@@ -200,16 +220,18 @@ function highlightHoles(turn) {
     }
 };
 
+function renderStones(numStones, idx) {
+
+    var parent = document.getElementById(`hole${idx}`);
+    var img = parent.childNodes[1];
+    img.src = stones[numStones];
+}
+
 function render() {
-    // for (var i = 0; i < board.length; i++) {
-
-    // }
-
-
     board.forEach(function (numStones, idx) {
-        // placeStones(numStones, idx); 
-        // console.log(numStones, idx);
-        document.getElementById(`hole${idx}`).textContent = numStones;
+        renderStones(numStones, idx); 
+
+        // document.getElementById(`hole${idx}`).textContent = numStones;
         
     });
     p1scoreDisplay.textContent = `Player 1: ${board[p1store]}`;
@@ -222,28 +244,47 @@ function render() {
         highlightHoles(turn);
         
     } else {
-        console.log('turn 2')
+
         document.getElementById('p2-turn').style.border = '2px solid blue';
         document.getElementById('p2-turn').style.boxShadow = '0px 0px 20px blue';
         document.getElementById('p1-turn').style.border = '';
         document.getElementById('p1-turn').style.boxShadow = '';
         highlightHoles(turn);
     };
+
+    
 };
 
 
-// function placeStones(numStones, idx) {
 
-//     var parent = document.getElementById(`hole${idx}`);
-//     var img = parent.childNodes[1];
-//     img.src = stones[numStones];
-//     console.log('Hi');
-    // console.log(parent.childNodes);
-    // var img = document.createElement('img')
-    //     img.src = stones[numStones];
-    //     var imgElem = document.getElementById(`hole${idx}`);
-    //     imgElem.appendChild(img);
-    //     console.log('numStones', numStones)
+
+
+// btn.onclick = function() {
+//     modal.style.display = "block";
 // }
+
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//     modal.style.display = "none";
+// }
+
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
 
 initialize();
