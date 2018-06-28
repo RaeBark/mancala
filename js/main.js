@@ -70,13 +70,8 @@ var p2scoreDisplay = document.getElementById('p2-score')
 
 
 var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
+var displayWinner = document.querySelector('p');
 
 
 
@@ -85,7 +80,7 @@ var span = document.getElementsByClassName("close")[0];
 
 document.querySelector('button').addEventListener('click', initialize);
 document.querySelector('table').addEventListener('click', handleMove)
-
+document.querySelector('span').addEventListener('click', closeModal)
 
 
 
@@ -100,7 +95,7 @@ function initialize() {
     turn = 1;
     //render is LAST!!
     render();
-};
+}
 
 function handleMove(evt) {
     var idx = parseInt(evt.target.id.replace('hole', ''));
@@ -125,15 +120,15 @@ function handleMove(evt) {
     changeTurn(lastHoleIdx);
 
     render();
-};
+}
 
 function isIndexOnPlayerSide(idx) {
     return turn === 1 ? p1holes.includes(idx) : p2holes.includes(idx);
-};
+}
 
 function getPlayersStoreIdx() {
     return turn === 1 ? p1store : p2store;
-};
+}
 
 function spreadStones(idx) {
     var numStones = board[idx];
@@ -151,7 +146,7 @@ function spreadStones(idx) {
         numStones--;
     };
     return idx;
-};
+}
 
 function capture(lastHoleIdx) {
     if (board[lastHoleIdx] === 1 && isIndexOnPlayerSide(lastHoleIdx)) {
@@ -159,7 +154,7 @@ function capture(lastHoleIdx) {
         board[getPlayersStoreIdx()] += board[opposite];
         board[opposite] = 0;
     }
-};
+}
 
 function checkForClearedRow() {
     var sum = p1holes.reduce(function (acc, idx) {
@@ -171,7 +166,7 @@ function checkForClearedRow() {
             board[idx] = 0;
             return sum;
         }, 0);
-        getWinner;
+        getWinner();
         return;
     }
     sum = p2holes.reduce(function (acc, idx) {
@@ -186,17 +181,17 @@ function checkForClearedRow() {
         getWinner();
         return;
     }
-};
+}
 
 function getWinner() {
     winner = board[p1store] > board[p2store] ? 'Player 1 wins!' : 'Player 2 wins!';
-};
+}
 
 function changeTurn(lastHoleIdx) {
     if (turn === 1 && lastHoleIdx === p1store) return;
     if (turn === 2 && lastHoleIdx === p2store) return;
     turn = turn === 1 ? 2 : 1;
-};
+}
 
 function highlightHoles(turn) {
     if (turn === 1) {
@@ -218,7 +213,14 @@ function highlightHoles(turn) {
             document.getElementById('hole' + elem).style.boxShadow = '';
         }
     }
-};
+}
+
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
+
 
 function renderStones(numStones, idx) {
 
@@ -251,35 +253,12 @@ function render() {
         document.getElementById('p1-turn').style.boxShadow = '';
         highlightHoles(turn);
     };
-
+    if (winner) {
+        modal.style.display = "block";
+        displayWinner.textContent = winner;
+    }
     
-};
-
-
-
-
-
-// btn.onclick = function() {
-//     modal.style.display = "block";
-// }
-
-// // When the user clicks on <span> (x), close the modal
-// span.onclick = function() {
-//     modal.style.display = "none";
-// }
-
-// // When the user clicks anywhere outside of the modal, close it
-// window.onclick = function(event) {
-//     if (event.target == modal) {
-//         modal.style.display = "none";
-//     }
-// }
-
-
-
-
-
-
+}
 
 
 
