@@ -64,11 +64,9 @@ var stoneSound = new Audio("https://freesound.org/data/previews/364/364711_25311
 /*----- app's state (variables) -----*/
 var board, turn, winner;
 
-
 /*----- cached element references -----*/
 var p1scoreDisplay = document.getElementById('p1-score');
 var p2scoreDisplay = document.getElementById('p2-score')
-
 
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName("close")[0];
@@ -97,7 +95,7 @@ function initialize() {
     //render is LAST!!
     render();
 }
-
+//handles each click on a div/hole
 function handleMove(evt) {
     var idx = parseInt(evt.target.id.replace('hole', ''));
     // return if not a valid hole idx for the cur player
@@ -108,11 +106,8 @@ function handleMove(evt) {
         return;
     }
     stoneSound.play();
-    // spread the stones
 
     var lastHoleIdx = spreadStones(idx);
-    //below is how we check in the console the idx of the div clicked
-    // console.log(lastHoleIdx)
 
     capture(lastHoleIdx);
 
@@ -122,15 +117,7 @@ function handleMove(evt) {
 
     render();
 }
-
-function isIndexOnPlayerSide(idx) {
-    return turn === 1 ? p1holes.includes(idx) : p2holes.includes(idx);
-}
-
-function getPlayersStoreIdx() {
-    return turn === 1 ? p1store : p2store;
-}
-
+//distributes the stones, resetting the index to zero so that they will flow counterclockwise
 function spreadStones(idx) {
     var numStones = board[idx];
     board[idx] = 0;
@@ -148,14 +135,24 @@ function spreadStones(idx) {
     };
     return idx;
 }
-
+//enables capture move if condiotions are met
 function capture(lastHoleIdx) {
     if (board[lastHoleIdx] === 1 && isIndexOnPlayerSide(lastHoleIdx)) {
         var opposite = 12 - lastHoleIdx;
-        board[getPlayersStoreIdx()] += board[opposite];
+        board[getPlayersStoreIdx()] += (board[opposite] + board[lastHoleIdx]);
         board[opposite] = 0;
+        board[lastHoleIdx] = 0;
     }
 }
+//check to see side of last stone dropped
+function isIndexOnPlayerSide(idx) {
+    return turn === 1 ? p1holes.includes(idx) : p2holes.includes(idx);
+}
+// returns stones to correct store
+function getPlayersStoreIdx() {
+    return turn === 1 ? p1store : p2store;
+}
+
 
 function checkForClearedRow() {
     var sum = p1holes.reduce(function (acc, idx) {
@@ -198,8 +195,8 @@ function highlightHoles(turn) {
     if (turn === 1) {
         for (var i = 0; i < p1holes.length; i++) {
             var elem = p1holes[i];
-            document.getElementById('hole' + elem).style.border = '2px solid blue';
-            document.getElementById('hole' + elem).style.boxShadow = '0px 0px 20px blue';
+            document.getElementById('hole' + elem).style.border = '1px solid Olive';
+            document.getElementById('hole' + elem).style.boxShadow = '0px 0px 30px Black';
             elem = p2holes[i];
             document.getElementById('hole' + elem).style.border = '';
             document.getElementById('hole' + elem).style.boxShadow = '';
@@ -207,8 +204,8 @@ function highlightHoles(turn) {
     } else {
         for (var i = 0; i < p1holes.length; i++) {
             elem = p2holes[i];
-            document.getElementById('hole' + elem).style.border = '2px solid blue';
-            document.getElementById('hole' + elem).style.boxShadow = '0px 0px 20px blue';
+            document.getElementById('hole' + elem).style.border = '1px solid Olive';
+            document.getElementById('hole' + elem).style.boxShadow = '0px 0px 30px Black';
             elem = p1holes[i];
             document.getElementById('hole' + elem).style.border = '';
             document.getElementById('hole' + elem).style.boxShadow = '';
@@ -221,8 +218,6 @@ function closeModal() {
     modal.style.display = "none";
 }
 
-
-
 function renderStones(numStones, idx) {
 
     var parent = document.getElementById(`hole${idx}`);
@@ -232,24 +227,21 @@ function renderStones(numStones, idx) {
 
 function render() {
     board.forEach(function (numStones, idx) {
-        renderStones(numStones, idx); 
-
-        // document.getElementById(`hole${idx}`).textContent = numStones;
-        
+        renderStones(numStones, idx);  
     });
     p1scoreDisplay.textContent = `Player 1: ${board[p1store]}`;
     p2scoreDisplay.textContent = `Player 2: ${board[p2store]}`;
     if (turn === 1) {
-        document.getElementById('p1-turn').style.border = '2px solid blue';
-        document.getElementById('p1-turn').style.boxShadow = '0px 0px 20px blue';
+        document.getElementById('p1-turn').style.border = '3px solid White';
+        document.getElementById('p1-turn').style.boxShadow = '0px 0px 50px White';
         document.getElementById('p2-turn').style.border = '';
         document.getElementById('p2-turn').style.boxShadow = '';
         highlightHoles(turn);
         
     } else {
 
-        document.getElementById('p2-turn').style.border = '2px solid blue';
-        document.getElementById('p2-turn').style.boxShadow = '0px 0px 20px blue';
+        document.getElementById('p2-turn').style.border = '3px solid White';
+        document.getElementById('p2-turn').style.boxShadow = '0px 0px 50px White';
         document.getElementById('p1-turn').style.border = '';
         document.getElementById('p1-turn').style.boxShadow = '';
         highlightHoles(turn);
