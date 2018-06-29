@@ -153,7 +153,6 @@ function getPlayersStoreIdx() {
     return turn === 1 ? p1store : p2store;
 }
 
-
 function checkForClearedRow() {
     var sum = p1holes.reduce(function (acc, idx) {
         return acc + board[idx];
@@ -213,13 +212,11 @@ function highlightHoles(turn) {
     }
 }
 
-
 function closeModal() {
     modal.style.display = "none";
 }
 
 function renderStones(numStones, idx) {
-
     var parent = document.getElementById(`hole${idx}`);
     var img = parent.childNodes[1];
     img.src = stones[numStones];
@@ -236,10 +233,8 @@ function render() {
         document.getElementById('p1-turn').style.boxShadow = '0px 0px 50px White';
         document.getElementById('p2-turn').style.border = '';
         document.getElementById('p2-turn').style.boxShadow = '';
-        highlightHoles(turn);
-        
+        highlightHoles(turn);    
     } else {
-
         document.getElementById('p2-turn').style.border = '3px solid White';
         document.getElementById('p2-turn').style.boxShadow = '0px 0px 50px White';
         document.getElementById('p1-turn').style.border = '';
